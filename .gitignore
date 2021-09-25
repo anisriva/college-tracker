@@ -1,3 +1,4 @@
 .vscode/
 *.db
 *.pdf
+__pycache__/
