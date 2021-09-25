@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
-from tkinter import ttk
+from tkinter import filedialog
+# from tkinter import ttk
 from db import Database
 from os import getenv, getcwd
 
@@ -88,13 +89,14 @@ def remove_item():
     populate_list()
 
 def export_data():
-    print('EXPORT')
+    file_selected = filedialog.asksaveasfilename(defaultextension=".espace", filetypes=(("Excel file", "*.xlsx"),("All Files", "*.*") ))
+    db.export_data(file_selected)
 
 # fields
 # year
 year_label = Label(app, 
                     text='Year', 
-                    font=('bold', 10), 
+                    font=("TkDefaultFont", 10), 
                     pady=15,
 					padx=5
                     )
@@ -104,7 +106,7 @@ year_entry.grid(sticky=W, row=0, column=1)
 # term
 term_label = Label(app, 
                     text='Term', 
-                    font=('bold', 10), 
+                    font=('TkDefaultFont', 10), 
                     pady=15,
 					padx=5
                     )
@@ -114,7 +116,7 @@ term_entry.grid(sticky=W, row=1, column=1)
 # program
 program_label = Label(app, 
                         text='Program', 
-                        font=('bold', 10), 
+                        font=('TkDefaultFont', 10), 
                         pady=15,
 					    padx=5
                         )
@@ -124,7 +126,7 @@ program_entry.grid(sticky=W, row=2, column=1)
 # tepl
 tot_enroll_planned_label = Label(app, 
                                 text='Total Enrollment Planned', 
-                                font=('bold', 10), 
+                                font=('TkDefaultFont', 10), 
                                 pady=15,
 					            padx=5
                                 )
@@ -134,7 +136,7 @@ tot_enroll_planned_entry.grid(sticky=W, row=3, column=1)
 # plan_std
 plan_students_label = Label(app, 
                             text='Planned Students', 
-                            font=('bold', 10), 
+                            font=('TkDefaultFont', 10), 
                             pady=15,
 					        padx=5
                             )
@@ -144,7 +146,7 @@ plan_students_entry.grid(sticky=W, row=4, column=1)
 # pattern
 pattern_label = Label(app, 
                         text='Pattern', 
-                        font=('bold', 10), 
+                        font=('TkDefaultFont', 10), 
                         pady=15,
 					    padx=5
                         )

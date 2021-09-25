@@ -1,4 +1,5 @@
 import sqlite3
+from xlsxwriter.workbook import Workbook
 
 class Database:
 
@@ -127,3 +128,13 @@ class Database:
     def __del__(self):
         self.cur.close()
         self.conn.close()
+    
+    def export_data(self, path):
+        workbook = Workbook(path)
+        worksheet = workbook.add_worksheet()
+        rows = self.get_student()
+        for i, row in enumerate(rows):
+            for j, value in enumerate(row):
+                worksheet.write(i, j, row[j])
+        workbook.close()
+        return
