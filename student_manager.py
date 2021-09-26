@@ -1,8 +1,8 @@
-from ttkthemes import ThemedTk
-from tkinter import messagebox, filedialog, ttk
 from tkinter import *
+from ttkthemes import ThemedTk
 from db import Database
 from os import getenv, getcwd
+from tkinter import messagebox, filedialog, ttk
 
 home_path = getcwd()
 
@@ -15,15 +15,6 @@ app.title('Course Tracker')
 app.geometry('600x550')
 app.iconbitmap(home_path+'\\resources\\app-sample-collections.ico')
 
-# Style
-# style = ttk.Style()
-# Theme configure
-# style.theme_use("arc")
-
-# canvas = Canvas(app, width=500, height=550)
-# canvas.pack(fill="both", expand=True)
-# canvas.grid(row=0, column=1)
-# canvas.create_image(0, 0, image = PhotoImage(file=home_path+'\\resources\\houses-6504533_640.png'), anchor='nw')
 def populate_list():
     students_list.delete(*students_list.get_children())
     for row in db.get_student():
@@ -52,9 +43,7 @@ def select_item(event):
     global selected_item 
     selected = students_list.focus()
     selected_item = students_list.item(selected, 'values')
-    # print(row)
-    # selected_item = students_list.get(row[0])
-    # print(selected_item)
+
     year_entry.delete(0, END)
     year_entry.insert(END, selected_item[1])
 
@@ -86,7 +75,15 @@ def clear_item():
         entry.delete(0,END)
 
 def update_item():
-    db.modify_sudent(year_entry.get(), term_entry.get(), program_entry.get(), tot_enroll_planned_entry.get(), plan_students_entry.get(), pattern_entry.get(),selected_item[0])
+    db.modify_sudent(
+                    year_entry.get(), 
+                    term_entry.get(), 
+                    program_entry.get(), 
+                    tot_enroll_planned_entry.get(),
+                    plan_students_entry.get(), 
+                    pattern_entry.get(),
+                    selected_item[0]
+                    )
     populate_list()
 
 def remove_item():
@@ -94,80 +91,44 @@ def remove_item():
     populate_list()
 
 def export_data():
-    file_selected = filedialog.asksaveasfilename(defaultextension=".espace", filetypes=(("Excel file", "*.xlsx"),("All Files", "*.*") ))
+    file_selected = filedialog.asksaveasfilename(
+                            defaultextension=".espace", 
+                            filetypes=(
+                                    ("Excel file", "*.xlsx"),
+                                    ("All Files", "*.*") 
+                                    )
+                                    )
     db.export_data(file_selected)
 
 # fields
 # year
-year_label = ttk.Label(app, 
-                    text='Year', 
-                        # font=('TkDefaultFont', 10), 
-                        # pady=15,
-					    # padx=5
-                        # relief=FLAT,
-                        # width=34
-                    )
+year_label = ttk.Label(app, text='Year')
 year_label.grid(sticky=W, row=0, column=0, pady=10, padx=25)
 year_entry = ttk.Entry(app, textvariable=IntVar())
 year_entry.grid(sticky=W, row=0, column=1)
 # term
-term_label = ttk.Label(app, 
-                    text='Term', 
-                        # font=('TkDefaultFont', 10), 
-                        # pady=15,
-					    # padx=5
-                        # relief=RAISED,
-                        # width=34
-                    )
+term_label = ttk.Label(app, text='Term')
 term_label.grid(sticky=W, row=1, column=0, pady=10, padx=25)
 # term_entry = OptionMenu(app, StringVar(), "1","2","3","4")
 term_entry = ttk.Entry(app, textvariable=StringVar())
 term_entry.grid(sticky=W, row=1, column=1)
 # program
-program_label = ttk.Label(app, 
-                        text='Program', 
-                        # font=('TkDefaultFont', 10), 
-                        # pady=15,
-					    # padx=5
-                        # relief=SUNKEN,
-                        # width=34
-                        )
+program_label = ttk.Label(app, text='Program')
 program_label.grid(sticky=W, row=2, column=0, pady=10, padx=25)
 program_entry = ttk.Entry(app, textvariable=StringVar())
 program_entry.grid(sticky=W, row=2, column=1)
 # tepl
-tot_enroll_planned_label = ttk.Label(app, 
-                                text='Total Enrollment Planned', 
-                        # font=('TkDefaultFont', 10), 
-                        # pady=15,
-					    # padx=5
-                        # relief=GROOVE,
-                        # width=34
-                                )
+tot_enroll_planned_label = ttk.Label(app, text='Total Enrollment Planned')
 tot_enroll_planned_label.grid(sticky=W, row=3, column=0, pady=10, padx=25)
 tot_enroll_planned_entry = ttk.Entry(app, textvariable=StringVar())
 tot_enroll_planned_entry.grid(sticky=W, row=3, column=1)
 # plan_std
-plan_students_label = ttk.Label(app, 
-                            text='Planned Students', 
-                        # font=('TkDefaultFont', 10), 
-                        # pady=15,
-					    # padx=5
-                        # relief=RIDGE,
-                        # width=34
-                            )
+plan_students_label = ttk.Label(app, text='Planned Students')
 plan_students_label.grid(sticky=W, row=4, column=0, pady=10, padx=25)
 plan_students_entry = ttk.Entry(app, textvariable=StringVar())
 plan_students_entry.grid(sticky=W, row=4, column=1)
 # pattern
-pattern_label = ttk.Label(app, 
-                        text='Pattern', 
-                        # font=('TkDefaultFont', 10), 
-                        # pady=15,
-					    # padx=5
-                        # relief=RAISED,
-                        # width=34
-                        )
+pattern_label = ttk.Label(app, text='Pattern')
 pattern_label.grid(sticky=W, row=5, column=0, pady=10, padx=25)
 pattern_entry = ttk.Entry(app, textvariable=StringVar())
 pattern_entry.grid(sticky=W, row=5, column=1)
@@ -238,10 +199,17 @@ students_list.bind('<<TreeviewSelect>>', select_item)
 
 # Set scrollbar
 scroll = ttk.Scrollbar(app, orient="vertical", command=students_list.yview)
-scroll.grid(row=6, column=0, pady=20,columnspan=3,  sticky='nse')
+scroll.grid(
+        row=6, 
+        column=0, 
+        pady=20,
+        columnspan=3,  
+        sticky='nse'
+        )
 
 # configure scrollbar with tree
 students_list.configure(yscrollcommand=scroll.set)
+
 populate_list()
 
 # start Program
