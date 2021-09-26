@@ -15,12 +15,36 @@ app.title('Course Tracker')
 app.geometry('600x550')
 app.iconbitmap(home_path+'\\resources\\app-sample-collections.ico')
 
+def throw_msg_and_clear(msg):
+    messagebox.showerror("Invalid Entry", msg)
+    clear_item()
+
+def validate_data(col:str, value):
+    if col.lower() == 'year':
+        if not (int(value) >=1900 and int(value) <=2099):
+            throw_msg_and_clear("Year out of range (1900, 2099)")
+            return False
+    elif col.lower() == 'term':
+        if not int(value) in [1,2,3,4]:
+            throw_msg_and_clear("Excepted values : 1, 2, 3, 4")
+            return False
+    return True
+
 def populate_list():
     students_list.delete(*students_list.get_children())
-    for row in db.get_student():
-        students_list.insert(parent='', index='end', iid=row[0], values=tuple(row))
+    for i, row in enumerate(db.get_student()):
+        tag ='even' if i % 2 == 0 else 'odd'
+        students_list.insert(parent='', index='end', iid=row[0], values=tuple(row), tags = (tag,))
 
 def add_item():
+    cols = [
+            ('year', year_entry.get()),
+            ('term', term_entry.get()),
+            ('program', program_entry.get()),
+            ('tot_enroll_planned', tot_enroll_planned_entry.get()),
+            ('plan_students', plan_students_entry.get()),
+            ('pattern', pattern_entry.get()),
+            ]
     if (year_entry.get() == '' or 
         term_entry.get() == '' or 
         program_entry.get() == '' or 
@@ -29,6 +53,11 @@ def add_item():
         pattern_entry.get() == "") :
         messagebox.showerror("Required Fields", "Please enter all fields")
         return
+    else:
+        for col in cols:
+            if not validate_data(col[0], col[1]):
+                return
+
     db.insert_student(
         year_entry.get(), 
         term_entry.get(),
@@ -194,7 +223,11 @@ students_list.grid(row=6,
                     padx=20,
                     sticky="nsew"
                     )
-                  
+
+# strap tree
+students_list.tag_configure('odd', background="#F4F6F7")
+students_list.tag_configure('even', background="#ECF0F1")
+
 students_list.bind('<<TreeviewSelect>>', select_item)
 
 # Set scrollbar

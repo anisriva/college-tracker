@@ -3,3 +3,7 @@
 *.pdf
 __pycache__/
 *.xlsx
+*REMOVE*
+dist
+*.spec
+build
