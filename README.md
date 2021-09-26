@@ -24,14 +24,14 @@ pip install xlsxwriter tk ttkthemes pyinstaller
 git clone https://github.com/anisriva/college-tracker.git
 ```
 
-### Build the executable
+### Build the executable (Only for distribution)
 
 ```bash
 cd college-tracker
 pyinstaller student_manager.py
 ```
 
-### Run and distribute the executable
+### Run and distribute the executable (Only for distribution)
 
 ```bash
 cd college-tracker/dist
