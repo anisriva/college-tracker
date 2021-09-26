@@ -31,6 +31,13 @@ cd college-tracker
 pyinstaller student_manager.py
 ```
 
+### Run and distribute the executable
+
+```bash
+cd college-tracker/dist
+./student_manager.exe
+```
+
 ## Running the source code
 
 ```bash
