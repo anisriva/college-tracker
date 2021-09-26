@@ -2,3 +2,4 @@
 *.db
 *.pdf
 __pycache__/
+*.xlsx

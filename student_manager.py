@@ -1,7 +1,6 @@
+from ttkthemes import ThemedTk
+from tkinter import messagebox, filedialog, ttk
 from tkinter import *
-from tkinter import messagebox
-from tkinter import filedialog
-# from tkinter import ttk
 from db import Database
 from os import getenv, getcwd
 
@@ -11,19 +10,24 @@ db_path = getenv('APPDATA')+'\\student.db'
 db = Database(db_path)
 
 # Create window object
-app = Tk()
+app = ThemedTk(theme='plastik')
 app.title('Course Tracker')
-app.geometry('550x550')
+app.geometry('600x550')
 app.iconbitmap(home_path+'\\resources\\app-sample-collections.ico')
+
+# Style
+# style = ttk.Style()
+# Theme configure
+# style.theme_use("arc")
+
 # canvas = Canvas(app, width=500, height=550)
 # canvas.pack(fill="both", expand=True)
 # canvas.grid(row=0, column=1)
 # canvas.create_image(0, 0, image = PhotoImage(file=home_path+'\\resources\\houses-6504533_640.png'), anchor='nw')
 def populate_list():
-    students_list.delete(0, END)
-    # students_list.insert(0, ('Year', 'Term', 'Program', 'Total Enrollment Planned', 'Planned Students', 'Pattern'))
+    students_list.delete(*students_list.get_children())
     for row in db.get_student():
-        students_list.insert(END, row)
+        students_list.insert(parent='', index='end', iid=row[0], values=tuple(row))
 
 def add_item():
     if (year_entry.get() == '' or 
@@ -46,10 +50,11 @@ def add_item():
 
 def select_item(event):
     global selected_item 
-    row = students_list.curselection()
-    print(row)
-    selected_item = students_list.get(row[0])
-    print(selected_item)
+    selected = students_list.focus()
+    selected_item = students_list.item(selected, 'values')
+    # print(row)
+    # selected_item = students_list.get(row[0])
+    # print(selected_item)
     year_entry.delete(0, END)
     year_entry.insert(END, selected_item[1])
 
@@ -94,127 +99,149 @@ def export_data():
 
 # fields
 # year
-year_label = Label(app, 
+year_label = ttk.Label(app, 
                     text='Year', 
-                    font=("TkDefaultFont", 10), 
-                    pady=15,
-					padx=5
+                        # font=('TkDefaultFont', 10), 
+                        # pady=15,
+					    # padx=5
+                        # relief=FLAT,
+                        # width=34
                     )
-year_label.grid(sticky=W, row=0, column=0)
-year_entry = Entry(app, textvariable=IntVar())
+year_label.grid(sticky=W, row=0, column=0, pady=10, padx=25)
+year_entry = ttk.Entry(app, textvariable=IntVar())
 year_entry.grid(sticky=W, row=0, column=1)
 # term
-term_label = Label(app, 
+term_label = ttk.Label(app, 
                     text='Term', 
-                    font=('TkDefaultFont', 10), 
-                    pady=15,
-					padx=5
+                        # font=('TkDefaultFont', 10), 
+                        # pady=15,
+					    # padx=5
+                        # relief=RAISED,
+                        # width=34
                     )
-term_label.grid(sticky=W, row=1, column=0)
-term_entry = Entry(app, textvariable=StringVar())
+term_label.grid(sticky=W, row=1, column=0, pady=10, padx=25)
+# term_entry = OptionMenu(app, StringVar(), "1","2","3","4")
+term_entry = ttk.Entry(app, textvariable=StringVar())
 term_entry.grid(sticky=W, row=1, column=1)
 # program
-program_label = Label(app, 
+program_label = ttk.Label(app, 
                         text='Program', 
-                        font=('TkDefaultFont', 10), 
-                        pady=15,
-					    padx=5
+                        # font=('TkDefaultFont', 10), 
+                        # pady=15,
+					    # padx=5
+                        # relief=SUNKEN,
+                        # width=34
                         )
-program_label.grid(sticky=W, row=2, column=0)
-program_entry = Entry(app, textvariable=StringVar())
+program_label.grid(sticky=W, row=2, column=0, pady=10, padx=25)
+program_entry = ttk.Entry(app, textvariable=StringVar())
 program_entry.grid(sticky=W, row=2, column=1)
 # tepl
-tot_enroll_planned_label = Label(app, 
+tot_enroll_planned_label = ttk.Label(app, 
                                 text='Total Enrollment Planned', 
-                                font=('TkDefaultFont', 10), 
-                                pady=15,
-					            padx=5
+                        # font=('TkDefaultFont', 10), 
+                        # pady=15,
+					    # padx=5
+                        # relief=GROOVE,
+                        # width=34
                                 )
-tot_enroll_planned_label.grid(sticky=W, row=3, column=0)
-tot_enroll_planned_entry = Entry(app, textvariable=StringVar())
+tot_enroll_planned_label.grid(sticky=W, row=3, column=0, pady=10, padx=25)
+tot_enroll_planned_entry = ttk.Entry(app, textvariable=StringVar())
 tot_enroll_planned_entry.grid(sticky=W, row=3, column=1)
 # plan_std
-plan_students_label = Label(app, 
+plan_students_label = ttk.Label(app, 
                             text='Planned Students', 
-                            font=('TkDefaultFont', 10), 
-                            pady=15,
-					        padx=5
+                        # font=('TkDefaultFont', 10), 
+                        # pady=15,
+					    # padx=5
+                        # relief=RIDGE,
+                        # width=34
                             )
-plan_students_label.grid(sticky=W, row=4, column=0)
-plan_students_entry = Entry(app, textvariable=StringVar())
+plan_students_label.grid(sticky=W, row=4, column=0, pady=10, padx=25)
+plan_students_entry = ttk.Entry(app, textvariable=StringVar())
 plan_students_entry.grid(sticky=W, row=4, column=1)
 # pattern
-pattern_label = Label(app, 
+pattern_label = ttk.Label(app, 
                         text='Pattern', 
-                        font=('TkDefaultFont', 10), 
-                        pady=15,
-					    padx=5
+                        # font=('TkDefaultFont', 10), 
+                        # pady=15,
+					    # padx=5
+                        # relief=RAISED,
+                        # width=34
                         )
-pattern_label.grid(sticky=W, row=5, column=0)
-pattern_entry = Entry(app, textvariable=StringVar())
+pattern_label.grid(sticky=W, row=5, column=0, pady=10, padx=25)
+pattern_entry = ttk.Entry(app, textvariable=StringVar())
 pattern_entry.grid(sticky=W, row=5, column=1)
 
 # Buttons
 # Add
-add_button = Button(app,
-                    text='Add Entry', 
+add_button = ttk.Button(app,
+                    text='Add', 
                     width=10,
                     command=add_item)
-add_button.grid(row=0, column=3)
+add_button.grid(row=0, column=2)
 # Remove
-remove_button = Button(app,
-                    text='Remove Entry', 
+remove_button = ttk.Button(app,
+                    text='Remove', 
                     width=10,
                     command=remove_item)
-remove_button.grid(row=1, column=3)
+remove_button.grid(row=1, column=2)
 # Modify
-update_button = Button(app,
-                    text='Update Entry', 
+update_button = ttk.Button(app,
+                    text='Update', 
                     width=10,
                     command=update_item)
-update_button.grid(row=2, column=3)
+update_button.grid(row=2, column=2)
 # Clear entry
-clear_button = Button(app,
-                    text='Clear Entry', 
+clear_button = ttk.Button(app,
+                    text='Clear', 
                     width=10,
                     command=clear_item)
-clear_button.grid(row=3, column=3)
+clear_button.grid(row=3, column=2)
 
-export_data_button = Button(app,
+export_data_button = ttk.Button(app,
                     text='Export Data', 
                     width=10,
                     command=export_data)
-export_data_button.grid(row=4, column=3)
+export_data_button.grid(row=4, column=2)
 
-# List box
-students_list = Listbox(app, 
-                        height=12, 
-                        width=68,
-                        border=1
-                        )
-# students_list = ttk.Treeview(
-#                     app,
-#                     columns = ('Year', 'Term', 'Program', 'Total Enrollment Planned', 'Planned Students', 'Pattern'),
-#                     show = 'headings',
-#                     height = 12
-#                     )
+students_list = ttk.Treeview(app)
+# Define columns
+students_list['columns']=('ID', 'Year', 'Term', 'Program', 'Total Enrollment Planned', 'Planned Students', 'Pattern')
+students_list.column("#0", width=0, stretch=NO)
+students_list.column("ID", width=40, minwidth=10, anchor=W)
+students_list.column("Year", width=50, minwidth=10, anchor=W)
+students_list.column("Term", width=50, minwidth=10, anchor=W)
+students_list.column("Program", width=100, minwidth=25, anchor=W)
+students_list.column("Total Enrollment Planned", width=145, minwidth=10, anchor=W)
+students_list.column("Planned Students", width=100, minwidth=10, anchor=W)
+students_list.column("Pattern", width=50, minwidth=10, anchor=W)
+# Define heading 
+students_list.heading("#0", text="ID", anchor=W)
+students_list.heading("ID", text="ID", anchor=W)
+students_list.heading("Year", text="Year", anchor=W)
+students_list.heading("Term", text="Term", anchor=W)
+students_list.heading("Program", text="Program", anchor=W)
+students_list.heading("Total Enrollment Planned", text="Total Enrollment Planned", anchor=W)
+students_list.heading("Planned Students", text="Planned Students", anchor=W)
+students_list.heading("Pattern", text="Pattern", anchor=W)
+
 students_list.grid(row=6, 
                     column=0, 
                     columnspan=3, 
-                    rowspan=6, 
+                    # rowspan=6, 
                     pady=20,
-
-                    padx=20)
-students_list.bind('<<ListboxSelect>>', select_item)                    
-# students_list.bind('<Double-1>', select_item)
+                    padx=20,
+                    sticky="nsew"
+                    )
+                  
+students_list.bind('<<TreeviewSelect>>', select_item)
 
 # Set scrollbar
-scroll = Scrollbar(app)
-scroll.grid(row=6, column=3)
+scroll = ttk.Scrollbar(app, orient="vertical", command=students_list.yview)
+scroll.grid(row=6, column=0, pady=20,columnspan=3,  sticky='nse')
 
+# configure scrollbar with tree
 students_list.configure(yscrollcommand=scroll.set)
-scroll.configure(command=students_list.yview)
-
 populate_list()
 
 # start Program
