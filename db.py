@@ -132,9 +132,11 @@ class Database:
     def export_data(self, path):
         workbook = Workbook(path)
         worksheet = workbook.add_worksheet()
+        data = [tuple( [row[0] for row in self.cur.description])]
         rows = self.get_student()
-        for i, row in enumerate(rows):
-            for j, value in enumerate(row):
+        data.extend(rows)
+        for i, row in enumerate(data):
+            for j, _ in enumerate(row):
                 worksheet.write(i, j, row[j])
         workbook.close()
         return
