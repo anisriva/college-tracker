@@ -41,12 +41,12 @@ pyinstaller  college_tracker.py \
 
 ```bash
 cd college-tracker/dist
-./student_manager.exe
+./college_tracker.exe
 ```
 
 ## Running the source code
 
 ```bash
 cd college-tracker
-python student_manager.py
+python college_tracker.py
 ```
