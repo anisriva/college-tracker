@@ -13,7 +13,7 @@ db = Database(db_path)
 app = ThemedTk(theme='plastik')
 app.title('Course Tracker')
 app.geometry('600x550')
-app.iconbitmap(home_path+'\\resources\\app-sample-collections.ico')
+app.iconbitmap(home_path+'\\resources\\icon.ico')
 
 def throw_msg_and_clear(msg):
     messagebox.showerror("Invalid Entry", msg)
