@@ -28,7 +28,7 @@ git clone https://github.com/anisriva/college-tracker.git
 
 ```bash
 cd college-tracker
-pyinstaller  student_manager.py \
+pyinstaller  college_tracker.py \
 --distpath resources/make/dist \
 --workpath resources/make/build \
 --log-level ERROR \

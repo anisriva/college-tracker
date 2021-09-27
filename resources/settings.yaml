@@ -1,0 +1,13 @@
+# Data Store dir
+data_store : $APPDATA
+# Data file 
+data_file : student.db
+# App theme
+# 'adapta', 'aquativo', 'arc', 'black', 'blue', 'breeze', 
+# 'clearlooks', 'elegance', 'equilux', 'scidpurple', 'scidsand'
+# 'itft1', 'keramik', 'kroc', 'plastik', 'radiance', 'smog'
+# 'scidblue', 'scidgreen', 'scidgrey', 'scidmint', 'scidpink', 
+# 'ubuntu', 'winxpblue', 'yaru'
+theme : 'yaru'
+# Icon 
+icon_path : resources/icon.ico

@@ -1,19 +1,36 @@
+'''
+Main module for the application.
+
+Run this module to run the application
+
+python college_tracker.py
+'''
+
+from __future__ import (absolute_import, division,
+                        print_function, unicode_literals)
+from builtins import *
+
+__version__ = '0.1'
+
 from tkinter import *
 from ttkthemes import ThemedTk
 from db import Database
 from os import getenv, getcwd
+from settings import PropsLoader
 from tkinter import messagebox, filedialog, ttk
 
-home_path = getcwd()
+# Import setting
+icon_path = PropsLoader()['icon_path']
+db_path = PropsLoader()['data_store']+'\\'+PropsLoader()['data_file']
+theme = PropsLoader()['theme']
 
-db_path = getenv('APPDATA')+'\\student.db'
 db = Database(db_path)
 
 # Create window object
-app = ThemedTk(theme='plastik')
-app.title('Course Tracker')
+app = ThemedTk(theme=theme)
+app.title('College Tracker')
 app.geometry('600x550')
-app.iconbitmap(home_path+'\\resources\\icon.ico')
+app.iconbitmap(icon_path)
 
 def throw_msg_and_clear(msg):
     messagebox.showerror("Invalid Entry", msg)

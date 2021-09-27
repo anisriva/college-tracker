@@ -1,3 +1,13 @@
+'''
+Backend sqlite3 db module.
+'''
+
+from __future__ import (absolute_import, division,
+                        print_function, unicode_literals)
+from builtins import *
+
+__version__ = '0.1'
+
 import sqlite3
 from xlsxwriter.workbook import Workbook
 
@@ -5,6 +15,10 @@ class Database:
 
     @classmethod
     def get_queries(cls, name):
+        '''
+        Store all queries here
+            :param name - Get the name of the query
+        '''
         init = '''
                 CREATE TABLE IF NOT EXISTS 
                 `students` (
@@ -57,6 +71,14 @@ class Database:
                     query, 
                     type = 'get'
                     ):
+        '''
+        Query executor for all the 
+        non parameterized queries (without ?).
+            :param - query - Query to be executed
+            :param - type - ['get' or 'set]
+                        get will return the values
+                        set will only run the query and return nothing
+        '''
         try:
             self.cur.execute(query)
         except Exception as e:
@@ -80,6 +102,11 @@ class Database:
     def insert_student(
                     self,*columns
                     ):
+        '''
+        Inserts student into the db
+            :param - columns arguments (all the columns values)
+            ex : insert_student('2009', 2, 'Data Analytics', 2)
+        '''
         query = self.get_queries('insert_student')[0]
         try:
             self.cur.execute(query,tuple(columns))
@@ -90,6 +117,9 @@ class Database:
             print(f'Entry successfully added : {columns}')
     
     def remove_student(self, id):
+        '''
+        Removes the entry with the provided id
+        '''
         query = self.get_queries('remove_student')[0]
         try:
             print(query, (id,))
@@ -101,6 +131,10 @@ class Database:
             print(f'Entry successfully removed for id : {id}')
     
     def modify_sudent(self, *columns):
+        '''
+        Updates the passed columns for a particular id
+         :param columns : - Update columns , id column
+        '''
         query = self.get_queries('modify_student')[0]
         try:
             print(query, tuple(columns))
@@ -112,6 +146,11 @@ class Database:
             print(f'Entry successfully modified to {columns}')
 
     def get_student(self, id=None):
+        '''
+        Fetch entries(s)
+            :param - id [default - None]
+            returns specied or all the data from the data store.
+        '''
         try:
             if id:
                 query = self.get_queries('fetch_student')[0]
@@ -126,10 +165,16 @@ class Database:
            return self.cur.fetchall()
     
     def __del__(self):
+        '''
+        Connection destroyer
+        '''
         self.cur.close()
         self.conn.close()
     
     def export_data(self, path):
+        '''
+        Export data to the excel file
+        '''
         workbook = Workbook(path)
         worksheet = workbook.add_worksheet()
         data = [tuple( [row[0] for row in self.cur.description])]
