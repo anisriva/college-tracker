@@ -96,8 +96,9 @@ class Database:
     def __init__(self, db):
         self.conn = sqlite3.connect(db)
         self.cur = self.conn.cursor()
-        for query in self.get_queries('init'):
-            self.execute_queries(query, 'set')
+        self.cur.executescript(open('resources\schema.sql','r').read())
+        # for query in self.get_queries('init'):
+        #     self.execute_queries(query, 'set')
     
     def insert_student(
                     self,*columns
@@ -177,8 +178,11 @@ class Database:
         '''
         workbook = Workbook(path)
         worksheet = workbook.add_worksheet()
+        self.cur.execute("SELECT * FROM `course_dashboard`;")
+        # data = [tuple( [row[0] for row in self.cur.description])]
+        # rows = self.get_student()
         data = [tuple( [row[0] for row in self.cur.description])]
-        rows = self.get_student()
+        rows = self.cur.fetchall()
         data.extend(rows)
         for i, row in enumerate(data):
             for j, _ in enumerate(row):

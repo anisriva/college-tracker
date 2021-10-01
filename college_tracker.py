@@ -20,9 +20,9 @@ from settings import PropsLoader
 from tkinter import messagebox, filedialog, ttk
 
 # Import setting
+theme = PropsLoader()['theme']
 icon_path = PropsLoader()['icon_path']
 db_path = PropsLoader()['data_store']+'\\'+PropsLoader()['data_file']
-theme = PropsLoader()['theme']
 
 db = Database(db_path)
 
@@ -183,31 +183,31 @@ pattern_entry.grid(sticky=W, row=5, column=1)
 # Add
 add_button = ttk.Button(app,
                     text='Add', 
-                    width=10,
+                    width=8,
                     command=add_item)
 add_button.grid(row=0, column=2)
 # Remove
 remove_button = ttk.Button(app,
                     text='Remove', 
-                    width=10,
+                    width=8,
                     command=remove_item)
 remove_button.grid(row=1, column=2)
 # Modify
 update_button = ttk.Button(app,
                     text='Update', 
-                    width=10,
+                    width=8,
                     command=update_item)
 update_button.grid(row=2, column=2)
 # Clear entry
 clear_button = ttk.Button(app,
                     text='Clear', 
-                    width=10,
+                    width=8,
                     command=clear_item)
 clear_button.grid(row=3, column=2)
 
 export_data_button = ttk.Button(app,
-                    text='Export Data', 
-                    width=10,
+                    text='Generate', 
+                    width=8,
                     command=export_data)
 export_data_button.grid(row=4, column=2)
 

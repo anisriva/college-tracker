@@ -8,6 +8,6 @@ data_file : student.db
 # 'itft1', 'keramik', 'kroc', 'plastik', 'radiance', 'smog'
 # 'scidblue', 'scidgreen', 'scidgrey', 'scidmint', 'scidpink', 
 # 'ubuntu', 'winxpblue', 'yaru'
-theme : 'yaru'
+theme : 'clearlooks'
 # Icon 
 icon_path : resources/icon.ico
